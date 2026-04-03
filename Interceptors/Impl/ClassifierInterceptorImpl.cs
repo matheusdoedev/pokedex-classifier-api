@@ -2,10 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 
 public class ClassifierInterceptorImpl : ClassifierInterceptor
 {
-	public Task<PostClassifyPokemonImageResponseDto> PostClassifyPokemonImage([FromBody] PostClassifyPokemonImageDto postClassifyPokemonImageDto)
+	public async Task<PostClassifyPokemonImageResponseDto> PostClassifyPokemonImage([FromBody] PostClassifyPokemonImageDto postClassifyPokemonImageDto)
 	{
-		string hashedImage = HashImage(postClassifyPokemonImageDto.Image);
-		string? existedResponse = CheckAlreadyExistResponse(hashedImage);
+		string imageHash = HashImage(postClassifyPokemonImageDto.Image);
+		string? existedResponse = CheckAlreadyExistResponse(imageHash);
 		PostClassifyPokemonImageResponseDto responseDto = new("");
 
 		if (existedResponse is not null)
@@ -14,6 +14,7 @@ public class ClassifierInterceptorImpl : ClassifierInterceptor
 		}
 
 		// check if already have a response for this image in nosql database
+
 		// if is, return that one
 		// send image to model
 		// get response and save in nosql database
